@@ -1,20 +1,20 @@
 #include <Eigen/Dense>
 #include <gtest/gtest.h>
 
-#include "linear_fitting.cpp"
+#include "solvers/least_squares.h"
 
 namespace lf
 {
 namespace
 {
-class LinearFittingFixture
-  : public LinearFitting, public testing::Test
+class LeastSquaresFixture
+  : public LeastSquares, public testing::Test
 {
 protected:
-  LinearFittingFixture(): LinearFitting() {};
+  LeastSquaresFixture(): LeastSquares() {};
 };
 
-TEST_F(LinearFittingFixture, LinearFitting) {
+TEST_F(LeastSquaresFixture, LeastSquares) {
   // Initialization
   Eigen::ArrayXf noise_x{ 2 };
   noise_x << 0, 1;

@@ -4,7 +4,7 @@
 #include "third_party/matplotlibcpp.h"
 #include "third_party/arguments_parser.h"
 
-#include "linear_fitting/linear_fitting.h"
+#include "linear_fitting/linear_fitting_factory.cpp"
 #include "random_noise_generator/random_noise_factory.cpp"
 
 namespace plt = matplotlibcpp;
@@ -34,13 +34,13 @@ int main(int argc, const char* argv[])
   // Measure performance
   ClockT::time_point begin = ClockT::now();
   // Line fitting
-  lf::LinearFitting lf = lf::LinearFitting(arguments.solver);
-  lf.Fit(noise->GetX(), noise->GetY());
+  lf::LinearFittingBasePtr lf = lf::LinearFittingFactory::Make(arguments.solver);
+  lf->Fit(noise->GetX(), noise->GetY());
   ClockT::time_point end = ClockT::now();
   std::cout << "Run time = "
             << std::chrono::duration_cast<std::chrono::microseconds> (end - begin).count()
             << " µs" << std::endl;
-  plt::plot(lf.GetX(), lf.GetY(), {{"label", arguments.solver}});
+  plt::plot(lf->GetX(), lf->GetY(), {{"label", arguments.solver}});
 
   // Plot
   plt::title("Line fit 2D noisy data");

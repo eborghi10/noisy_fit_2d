@@ -2,7 +2,7 @@
 #include <memory>
 #include <string>
 
-// Factory
+// Base class
 #include "noises/random_noise_base.h"
 
 // Noise classes
