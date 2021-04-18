@@ -1,9 +1,11 @@
 #include <chrono>
+#include <string>
 
 #include "third_party/matplotlibcpp.h"
 #include "third_party/arguments_parser.h"
+
 #include "linear_fitting/linear_fitting.h"
-#include "random_noise_generator/random_noise_generator.h"
+#include "random_noise_generator/random_noise_factory.cpp"
 
 namespace plt = matplotlibcpp;
 using ClockT = std::chrono::steady_clock;
@@ -26,14 +28,14 @@ int main(int argc, const char* argv[])
   const auto arguments = parser->parse(argc, argv);
 
   // Random number generator
-  rng::RandomNoiseGenerator rng = rng::RandomNoiseGenerator(arguments.noise);
-  plt::scatter(rng.GetX(), rng.GetY(), {{"label", arguments.noise}});
+  rng::RandomNoiseBasePtr noise = rng::RandomNoiseFactory::Make(arguments.noise);
+  plt::scatter(noise->GetX(), noise->GetY(), {{"label", arguments.noise}});
 
   // Measure performance
   ClockT::time_point begin = ClockT::now();
   // Line fitting
   lf::LinearFitting lf = lf::LinearFitting(arguments.solver);
-  lf.Fit(rng.GetX(), rng.GetY());
+  lf.Fit(noise->GetX(), noise->GetY());
   ClockT::time_point end = ClockT::now();
   std::cout << "Run time = "
             << std::chrono::duration_cast<std::chrono::microseconds> (end - begin).count()
