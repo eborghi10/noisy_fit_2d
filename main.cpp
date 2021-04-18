@@ -1,7 +1,7 @@
 #include <chrono>
 
-#include "includes/matplotlibcpp.h"
-#include "includes/arguments_parser.h"
+#include "third_party/matplotlibcpp.h"
+#include "third_party/arguments_parser.h"
 #include "linear_fitting/linear_fitting.h"
 #include "random_noise_generator/random_noise_generator.h"
 
